@@ -20,24 +20,15 @@
 
 from __future__ import absolute_import, division, print_function
 
-from timestream.manipulate import PCException
-
-import sys
-import os
-import timestream
-import logging
-import timestream.manipulate.configuration as pipeconf
-import timestream.manipulate.pipeline as pipeline
 import datetime
 from docopt import (docopt, DocoptExit)
+import logging
+import os
+import timestream
 
-HAVE_QT = False
-try:
-    from PyQt4 import (QtGui, QtCore, uic)
-    from _pipeline_gui import PipelineRunnerGUI, maingui
-    HAVE_QT = True
-except ImportError:
-    HAVE_QT = False
+from timestream.manipulate import PCException
+import timestream.manipulate.configuration as pipeconf
+import timestream.manipulate.pipeline as pipeline
 
 
 def genConfig(opts):
@@ -299,12 +290,10 @@ USAGE:
                  [-v | -vv | -vvv | -s] [--logfile=FILE]
                  [--recalculate] [--set=CONFIG]
     run-pipeline (-d | --doc) [--conf] [--comp]
-    run-pipeline (-g | --gui)
     run-pipeline (-h | --help)
 
 OPTIONS:
     -h --help   Show this screen.
-    -g --gui    Open the QT Graphical User Interface
     -d --doc    Output documentation of components or configuration file.
     -i IN       Input timestream directory. IN will take precedence over any
                 input directory in pipeline yaml configuration. If not
@@ -336,11 +325,6 @@ def main():
     opts = docopt(OPTS)
     if opts["-i"] is not None or opts["-p"] is not None:
         maincli(opts)
-    elif opts["--gui"]:
-        if HAVE_QT:
-            maingui(opts)
-        else:
-            raise ImportError("Couldn't import PyQT4. Please install it")
     elif opts["--doc"]:
         maindoc(opts)
     else:

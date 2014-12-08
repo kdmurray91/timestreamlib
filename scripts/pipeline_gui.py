@@ -20,17 +20,18 @@
 
 from __future__ import absolute_import, division, print_function
 
-from timestream.manipulate import PCException
-
-import sys
-import os
-import timestream
+import docopt
 import logging
-import timestream.manipulate.configuration as pipeconf
-import timestream.manipulate.pipeline as pipeline
-import datetime
-from docopt import (docopt, DocoptExit)
+import os
 from PyQt4 import (QtGui, QtCore, uic)
+import sys
+
+import timestream
+from run_pipeline import (
+    PipelineRunner,
+    initPipeline,
+    OPTS,
+)
 
 
 class PipelineRunnerGUI(QtGui.QMainWindow):
@@ -229,3 +230,8 @@ def maingui(opts):
     app.exec_()
     app.deleteLater()
     sys.exit()
+
+
+if __name__ == '__main__':
+    opts = docopt(OPTS)
+    maingui(opts)
